@@ -1,4 +1,4 @@
 services:
   sdp_integration.service:
     class: Drupal\sdp_integration\Service\SDPService
-    arguments: ['@http_client', '@config.factory']
+    arguments: ['@http_client', '@config.factory', '@current_user', '@request_stack', '@entity_type.manager', '@logger.factory']

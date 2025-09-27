@@ -1,0 +1,29 @@
+<?php
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\user\Entity\User;
+use Drupal\Core\Session\AccountInterface;
+
+/**
+ * Implements hook_page_attachments().
+ *
+ * Check for automatic login on each page load.
+ */
+function sdp_integration_page_attachments(array &$attachments) {
+  // Only run for anonymous users
+  if (\Drupal::currentUser()->isAuthenticated()) {
+    return;
+  }
+
+  // Get the SDP service
+  $sdp_service = \Drupal::service('sdp_integration.service');
+
+  // Try to authenticate from cookies
+  try {
+    $sdp_service->autoAuthenticateFromCookie();
+  }
+  catch (\Exception $e) {
+    // Log error but don't break the page
+    \Drupal::logger('sdp_integration')->error('Auto authentication failed: @message', ['@message' => $e->getMessage()]);
+  }
+}

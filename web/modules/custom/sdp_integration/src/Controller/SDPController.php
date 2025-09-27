@@ -54,4 +54,17 @@ class SDPController extends ControllerBase {
     }
   }
 
+  public function unauthorizedPage() {
+    return [
+      '#markup' => '<div class="unauthorized-page">
+                      <h1>401 - Unauthorized</h1>
+                      <p>Access token is required to view this content. Please ensure you have the proper authentication credentials.</p>
+                      <p>If you believe you should have access, please contact the system administrator.</p>
+                    </div>',
+      '#attached' => [
+        'library' => ['core/drupal.states'],
+      ],
+    ];
+  }
+
 }
