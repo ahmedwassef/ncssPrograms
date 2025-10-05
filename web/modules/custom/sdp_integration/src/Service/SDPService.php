@@ -65,6 +65,21 @@ class SDPService {
    * Auto-authenticate user from cookie access token.
    */
   public function autoAuthenticateFromCookie() {
+
+
+    $request = $this->requestStack->getCurrentRequest();
+    if (!$request) {
+      $this->redirectTo401();
+      return;
+    }
+
+    // Skip if current route is 'need-login'
+    $current_route = $request->attributes->get('_route');
+    if ($current_route === 'ncss_about_block.needLogin') {
+      return;
+    }
+
+
     // Skip if user is already logged in
     if ($this->currentUser->isAuthenticated()) {
       return;
@@ -109,8 +124,8 @@ class SDPService {
    * Redirect to 401 unauthorized page.
    */
   protected function redirectTo401() {
-//    $response = new RedirectResponse('/', 302);
-//    $response->send();
+   $response = new RedirectResponse('/need-login', 302);
+    $response->send();
     return null;
     exit();
   }

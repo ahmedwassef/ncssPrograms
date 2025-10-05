@@ -206,3 +206,18 @@ function contactus_form_schema()
   ];
   return $schema;
 }
+
+function ncss_about_block_theme($existing, $type, $theme, $path){
+
+
+  $themes['need_login'] = array(
+    'template' => 'needLogin',
+    'path' => $path . '/templates',
+    'variables' => [
+      'items' => null,
+      'lang' => null,
+    ],
+  );
+
+  return $themes;
+}
