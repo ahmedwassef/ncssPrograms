@@ -68,6 +68,7 @@ class SDPService {
 
 
     $request = $this->requestStack->getCurrentRequest();
+
     if (!$request) {
       $this->redirectTo401();
       return;
@@ -75,7 +76,7 @@ class SDPService {
 
     // Skip if current route is 'need-login'
     $current_route = $request->attributes->get('_route');
-    if ($current_route === 'ncss_about_block.needLogin') {
+    if ($current_route === 'ncss_about_block.needLogin' || $current_route === 'ncss_about_block.needLogin') {
       return;
     }
 
@@ -92,7 +93,12 @@ class SDPService {
       return;
     }
 
-    $accessToken = $request->cookies->get('sdp_access_token');
+    $config = $this->configFactory->get('sdp_integration.settings');
+    $url = $config->get('sdp_base_url') . $config->get('sdp_user_info_endpoint');
+    $access_token_name = $config->get('access_token_key')  ;
+
+    $accessToken = $request->cookies->get($access_token_name);
+
     if (empty($accessToken)) {
       $this->redirectTo401();
       return;

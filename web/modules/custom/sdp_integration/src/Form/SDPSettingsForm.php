@@ -18,6 +18,14 @@ class SDPSettingsForm extends ConfigFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('sdp_integration.settings');
 
+    $form['access_token_key'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Access Token Key Name'),
+      '#default_value' => $config->get('access_token_key') ?: 'sdp_access_token',
+      '#description' => $this->t('Access Token Key Name for the SDP Auth Service'),
+      '#required' => TRUE,
+    ];
+
     $form['sdp_base_url'] = [
       '#type' => 'textfield',
       '#title' => $this->t('SDP Base URL'),
@@ -47,6 +55,7 @@ class SDPSettingsForm extends ConfigFormBase {
 
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $this->config('sdp_integration.settings')
+      ->set('access_token_key', $form_state->getValue('access_token_key'))
       ->set('sdp_base_url', $form_state->getValue('sdp_base_url'))
       ->set('sdp_user_info_endpoint', $form_state->getValue('sdp_user_info_endpoint'))
       ->set('sdp_auth_endpoint', $form_state->getValue('sdp_auth_endpoint'))

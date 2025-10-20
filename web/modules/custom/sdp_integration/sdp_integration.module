@@ -11,7 +11,8 @@ use Drupal\Core\Session\AccountInterface;
  */
 function sdp_integration_page_attachments(array &$attachments) {
   // Only run for anonymous users
-  if (\Drupal::currentUser()->isAuthenticated()) {
+
+   if (\Drupal::currentUser()->isAuthenticated()  ) {
     return;
   }
 
@@ -23,7 +24,23 @@ function sdp_integration_page_attachments(array &$attachments) {
     $sdp_service->autoAuthenticateFromCookie();
   }
   catch (\Exception $e) {
+
     // Log error but don't break the page
     \Drupal::logger('sdp_integration')->error('Auto authentication failed: @message', ['@message' => $e->getMessage()]);
   }
+}
+
+function sdp_integration__theme($existing, $type, $theme, $path){
+
+
+  $themes['need_login'] = array(
+    'template' => 'needLogin',
+    'path' => $path . '/templates',
+    'variables' => [
+      'items' => null,
+      'lang' => null,
+    ],
+  );
+
+  return $themes;
 }

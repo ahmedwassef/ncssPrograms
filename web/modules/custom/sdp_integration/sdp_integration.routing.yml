@@ -21,3 +21,11 @@ sdp_integration.settings:
     _title: 'SDP Integration Settings'
   requirements:
     _permission: 'administer site configuration'
+
+sdp_integration.needLogin:
+  path: 'need-login'
+  defaults:
+    _title: 'Need Login'
+    _controller: '\Drupal\sdp_integration\Controller\NeedLoginController::build'
+  requirements:
+    _permission: 'access content'
