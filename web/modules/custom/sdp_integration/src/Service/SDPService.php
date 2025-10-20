@@ -97,7 +97,7 @@ class SDPService {
     $url = $config->get('sdp_base_url') . $config->get('sdp_user_info_endpoint');
     $access_token_name = $config->get('access_token_key')  ;
 
-    $accessToken = $request->cookies->get($access_token_name);
+    $accessToken = $request->cookies->get((string)$access_token_name);
 
     if (empty($accessToken)) {
       $this->redirectTo401();
